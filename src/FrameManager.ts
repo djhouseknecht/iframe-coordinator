@@ -73,6 +73,18 @@ class FrameManager {
   }
 
   /**
+   * String of feature-policies to set on the iframe element
+   *  Ex: "microphone *;"
+   * @param allow string of [feature-policies](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Feature-Policy#Directives)
+   */
+  public setFrameAllowDirective(allow: string): void {
+    this._iframe.setAttribute(
+      'allow',
+      allow // 'camera *; autoplay *; display-capture *; fullscreen *; microphone *;'
+    );
+  }
+
+  /**
    * Navigates the wrapped iframe to the provided location in a
    * way that does not affect the host application's history.
    * This prevents strange behavior in the forward and back buttons

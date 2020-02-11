@@ -28,7 +28,8 @@ export class HostRouter {
     let clientTarget: ClientTarget = {
       id: null,
       url: null,
-      assignedRoute: null
+      assignedRoute: null,
+      allow: undefined
     };
     this._clients.forEach(client => {
       const clientRoute = matchAndStripPrefix(route, client.assignedRoute);
@@ -36,7 +37,8 @@ export class HostRouter {
         clientTarget = {
           id: client.id,
           url: applyRoute(client.url, clientRoute),
-          assignedRoute: client.assignedRoute
+          assignedRoute: client.assignedRoute,
+          allow: client.allow
         };
       }
     });
@@ -58,6 +60,8 @@ export interface ClientTarget {
   url: string | null;
   /** The assigned route of the client */
   assignedRoute: string | null;
+  /** iframe's allow directive */
+  allow?: string;
 }
 
 /**
@@ -87,6 +91,8 @@ interface ClientRegistration {
   url: string;
   /** The host route that should map to this client app */
   assignedRoute: string;
+  /** iframe's allow directive */
+  allow?: string;
 }
 
 /**
@@ -139,7 +145,8 @@ function parseRegistration(key: string, value: ClientRegistration): ClientInfo {
   return {
     id: key,
     url: value.url,
-    assignedRoute: normalizeRoute(value.assignedRoute)
+    assignedRoute: normalizeRoute(value.assignedRoute),
+    allow: value.allow
   };
 }
 
